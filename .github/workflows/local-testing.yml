@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      # - name: Build application
-      #   run: gcc main.c -o hello-world
+      - name: Build application
+        run: gcc main.c -o hello-world
 
       - run: git clone git@github.com:wandervik/github-actions-tut.git
 
