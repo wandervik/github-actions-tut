@@ -1,11 +1,11 @@
-name: Local Testing
+name: Test app
 
 on:
   workflow_dispatch
 
 jobs:
   build:
-    name: Local Testing
+    name: Build app
     runs-on: ubuntu-latest
 
     steps:
