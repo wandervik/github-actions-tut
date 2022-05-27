@@ -1,8 +1,7 @@
-name: S3 Continuous Deployment to dev
-
+name: CI/CD example
 on:
   push:
-    branches: [ 'master', 'dev' ]
+    branches: [ 'master' ]
 
 permissions:
   id-token: write
@@ -37,9 +36,9 @@ jobs:
       matrix:
         environment: ['dev', 'prod']
 
-    steps:
 
-      - name: Configure AWS credentials from Test account
+    steps:
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: arn:aws:iam::519140963702:role/github-actions-role
@@ -50,7 +49,7 @@ jobs:
 
       - name: Publish app files
         run: |
-          aws s3 cp artifact ${{ env.AWS_S3_PATH }}
+          aws s3 cp artifact/hello-world ${{ env.AWS_S3_PATH }}/${{ matrix.environment }}
 
 
 
