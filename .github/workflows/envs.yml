@@ -50,22 +50,7 @@ jobs:
 
       - name: Publish app files
         run: |
-          aws s3 cp hello-world ${{ env.AWS_S3_PATH }}
-
-  # deploy-prod:
-  #   if: ${{ github.ref == 'refs/heads/master' }}
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   environment: prod
-
-  #   steps:
-  #     - name: Download all workflow run artifacts
-  #       uses: actions/download-artifact@v3
-
-  #     - name: Publish on prod
-  #       run: |
-  #         aws s3 cp hello-world ${{ env.AWS_S3_PATH }}
-
+          aws s3 cp artifact ${{ env.AWS_S3_PATH }}
 
 
 
