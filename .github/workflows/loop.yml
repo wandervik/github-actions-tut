@@ -13,7 +13,7 @@ jobs:
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
 
-      - run: echo 'test' > test.txt
+      - run: date > test.txt
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
