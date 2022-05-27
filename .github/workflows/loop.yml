@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
 
       - name:  'Automated Version Bump'
         uses:  'phips28/gh-action-bump-version@master'
