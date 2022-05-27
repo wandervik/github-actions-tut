@@ -1,0 +1,22 @@
+name: Loop
+
+on:
+  push
+
+jobs:
+  build:
+    name: Local Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name:  'Automated Version Bump'
+        uses:  'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          minor-wording:  'MINOR_UPDATE'
+          major-wording:  'MAJOR_UPDATE'
+          patch-wording:  'PATCH_UPDATE'
+          skip-tag: 'true'
