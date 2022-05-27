@@ -1,7 +1,7 @@
 name: Local Testing
 
 on:
-  workflow_dispatch
+  push
 
 jobs:
   outputs:
@@ -11,36 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Get version
-      #   id: version
-      #   uses: notiz-dev/github-action-json-property@release
-      #   with:
-      #       path: 'package.json'
-      #       prop_path: 'version'
-
-      # - run: echo "VERSION=${{steps.version.outputs.prop}}" >> $GITHUB_ENV
-
-      # - name: Deploy
-      #   run: |
-      #     echo 's3://sample-path/${{ env.version }}'
-
-
-      # - name: Set selected color
-      #   run: echo '::set-output name=SELECTED_COLOR::green'
-      #   id: random-color-generator
-
-      # - name: Get color
-      #   run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
-
-
       - name: Get new version
         id: new_version
         uses: notiz-dev/github-action-json-property@release
         with:
             path: 'package.json'
             prop_path: 'version'
-
-      # - run: echo "new_version=${{steps.new_version.outputs.prop}}" >> $GITHUB_ENV
 
       - name: Deploy
         run: |
