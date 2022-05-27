@@ -10,8 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        # with:
-        #   token: ${{ secrets.PERSONAL_TOKEN }}
+        with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
 
       - run: date > test.txt
 
