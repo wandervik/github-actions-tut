@@ -2,7 +2,16 @@ name: Matrix
 
 on:
   workflow_dispatch
-
+  inputs:
+    URL: 
+      description: 'url'
+      required: true
+      default: 'https://example.com'
+    TestFilter: 
+      description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
+      required: false
+      default: 'Category=Ready'
+  
 jobs:
   example_matrix:
     runs-on: ubuntu-latest
@@ -11,8 +20,13 @@ jobs:
       matrix:
         version: [10, 12, 14]
     steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.version }}
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{ matrix.version }}
+      - uses: actions/checkout@v2
 
-      - run: node --version
+#       - run: node --version
+        - name: Show inputs
+          run: |
+            echo "url: ${{ github.event.inputs.URL }}"
+            echo "test filter: ${{ github.event.inputs.TestFilter }}"
