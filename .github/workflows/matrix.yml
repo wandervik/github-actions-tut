@@ -7,10 +7,10 @@ on:
         description: 'url'
         required: true
         default: 'https://example.com'
-      TestFilter: 
-        description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
-        required: false
-        default: 'Category=Ready'
+#       TestFilter: 
+#         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
+#         required: false
+#         default: 'Category=Ready'
   
 jobs:
   example_matrix:
@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        version: [10, 12, 14]
+        TestFilter: [Category=Chrome, Category=Firefox, Category=Safari]
     steps:
 #       - uses: actions/setup-node@v3
 #         with:
@@ -29,4 +29,4 @@ jobs:
       - name: Show inputs
         run: |
           echo "url: ${{ github.event.inputs.URL }}"
-          echo "test filter: ${{ github.event.inputs.TestFilter }}"
+          echo "test filter: ${{ matrix.TestFilter }}"
