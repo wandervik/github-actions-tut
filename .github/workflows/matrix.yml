@@ -1,16 +1,16 @@
 name: Matrix
 
 on:
-  workflow_dispatch
-  inputs:
-    URL: 
-      description: 'url'
-      required: true
-      default: 'https://example.com'
-    TestFilter: 
-      description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
-      required: false
-      default: 'Category=Ready'
+  workflow_dispatch:
+    inputs:
+      URL: 
+        description: 'url'
+        required: true
+        default: 'https://example.com'
+      TestFilter: 
+        description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
+        required: false
+        default: 'Category=Ready'
   
 jobs:
   example_matrix:
