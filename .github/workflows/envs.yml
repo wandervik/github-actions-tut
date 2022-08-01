@@ -1,8 +1,7 @@
 name: CI/CD example
 
-on:
-  push:
-    branches: [ 'master' ]
+on: 
+  workflow-dispatch
 
 permissions:
   id-token: write
