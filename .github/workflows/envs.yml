@@ -1,6 +1,6 @@
 name: CI/CD example
 
-on: 
+on:
   workflow-dispatch
 
 permissions:

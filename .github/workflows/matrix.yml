@@ -3,22 +3,22 @@ name: Matrix
 on:
   workflow_dispatch:
     inputs:
-      URL: 
+      URL:
         description: 'url'
         required: true
         default: 'https://example.com'
-#       TestFilter: 
-#         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
-#         required: false
-#         default: 'Category=Ready'
-  
+      TestFilter:
+        description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
+        required: false
+        default: 'Category=Ready'
+
 jobs:
   example_matrix:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        TestFilter: [Category=Chrome, Category=Firefox, Category=Safari]
+        TestFilter: [Category=Chrome, Category=Firefox, Category=Safari,  github.event.inputs.TestFilter ]
     steps:
 #       - uses: actions/setup-node@v3
 #         with:
