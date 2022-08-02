@@ -17,8 +17,8 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      matrix:
-        TestFilter: [Category=Chrome, Category=Firefox, Category=Safari,  "${{ github.event.inputs.TestFilter }}"]
+        matrix:
+          TestFilter: [Category=Chrome, Category=Firefox, Category=Safari,  "${{ github.event.inputs.TestFilter }}"]
     steps:
 #       - uses: actions/setup-node@v3
 #         with:
