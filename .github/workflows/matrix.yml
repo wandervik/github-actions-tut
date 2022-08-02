@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      max-parallel: 0
       matrix:
         TestFilter: [Category=Chrome, Category=Firefox, Category=Safari,  "${{ github.event.inputs.TestFilter }}"]
     steps:
