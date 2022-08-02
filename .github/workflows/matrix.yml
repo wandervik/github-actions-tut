@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        TestFilter: [Category=Chrome, Category=Firefox, Category=Safari,  github.event.inputs.TestFilter ]
+        TestFilter: [Category=Chrome, Category=Firefox, Category=Safari,  "${{ github.event.inputs.TestFilter }}"]
     steps:
 #       - uses: actions/setup-node@v3
 #         with:
