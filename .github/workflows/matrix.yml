@@ -17,9 +17,9 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      max-parallel: 0
+      max-parallel: 3
       matrix:
-        TestFilter: [Category=Chrome, Category=Firefox, Category=Safari,  "${{ github.event.inputs.TestFilter }}"]
+        TestFilter: ["{{github.event.input.TestFilter | Category=Chrome", "{{github.event.input.TestFilter | Category=Firefox", "{{github.event.input.TestFilter | Category=Safari",  "${{ github.event.inputs.TestFilter }}"]
     steps:
 #       - uses: actions/setup-node@v3
 #         with:
