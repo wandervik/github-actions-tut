@@ -21,7 +21,7 @@ jobs:
     strategy:
       max-parallel: 3
       matrix:
-        TestFilter: ["${{github.event.input.TestFilter}} | Category=Chrome", "${{github.event.input.TestFilter}} | Category=Firefox", "${{github.event.input.TestFilter}} | Category=Safari",  "Category=${{ github.event.inputs.TestFilter }} | Category=${{github.event.inputs.Browser}}"]
+        TestFilter: ["${{github.event.input.TestFilter}} | Category=Browser:Chrome", "${{github.event.input.TestFilter}} | Category=Firefox", "${{github.event.input.TestFilter}} | Category=Safari",  "Category=${{ github.event.inputs.TestFilter }} | Category=${{github.event.inputs.Browser}}"]
     steps:
 #       - uses: actions/setup-node@v3
 #         with:
