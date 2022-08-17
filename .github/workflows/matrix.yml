@@ -51,51 +51,44 @@ jobs:
       #   run: |
       #     if [[ "${{ github.event.inputs.TestFilter }}" == "Browser=Edge" ]]; then
       #       echo "::set-output name=runner1::windows"
-      #       echo "::set-output name=TestFilter1::Browser=Edge"
       #       echo "Edge Only"
       #     elif [[ "${{ github.event.inputs.TestFilter }}" != *Edge* ]]; then
       #       echo "::set-output name=runner2::ubuntu"
-      #       echo "::set-output name=runner1::windows"
-      #       echo "::set-output name=TestFilter1::Browser=Edge"
-      #       TESTFILTER="${{ github.event.inputs.TestFilter }}"
-      #       TESTFILTER="${TESTFILTER/Browser=Edge, /}"
-      #       TESTFILTER="${TESTFILTER/, Browser=Edge/}"
-      #       TESTFILTER="[\"${TESTFILTER//, /\", \"}\"]"
-      #       echo $TESTFILTER
-      #       echo "::set-output name=TestFilter2::$TESTFILTER"
       #       echo "Edge contains"
       #     else
       #       echo "::set-output name=runner2::ubuntu"
-      #       TESTFILTER="${{ github.event.inputs.TestFilter }}"
-      #       TESTFILTER="[\"${TESTFILTER//, /\", \"}\"]"
-      #       echo "::set-output name=TestFilter2::$TESTFILTER"
       #       echo "NO EDGE"
       #     fi
 
 
 
   job1:
+    strategy:
+      matrix:
+        Category: ${{ fromJSON(needs.setup.outputs.matrix-category) }}
     needs: [setup]
-    if: needs.setup.outputs.runner1 == 'windows'
+    # if: needs.setup.outputs.runner1 == 'windows'
+    if: contains (github.event.inputs.Browser, "Category=Browser:Edge")
     # runs-on: ${{ needs.setup.outputs.runner }}
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "My runner is ${{ needs.setup.outputs.runner1 }}"
+      - run: echo "My runner is windows"
 
       - name: Show inputs
         run: |
-          echo "test filter is ${{ needs.setup.outputs.TestFilter1 }}"
+          echo "test filter is Browser=Edge | ${{ matrix.Category}}"
 
   job2:
     strategy:
       matrix:
         TestFilter: ${{ fromJSON(needs.setup.outputs.matrix-browser) }}
+        Category: ${{ fromJSON(needs.setup.outputs.matrix-category) }}
         exclude:
           - TestFilter: "Category=Browser:Edge"
 
     needs: [setup]
-    # if: (needs.setup.outputs.runner2 == 'ubuntu') && (matrix.TestFilter != 'Browser=Edge')
+    if: github.event.inputs.Browser != "Category=Browser:Edge"
     # runs-on: ${{ needs.setup.outputs.runner }}
     runs-on: ubuntu-latest
 
@@ -104,7 +97,7 @@ jobs:
 
       - name: Show inputs
         run: |
-          echo "test filter: ${{ matrix.TestFilter }}"
+          echo "test filter: ${{ matrix.TestFilter }} | ${{ matrix.Category }}"
 # jobs:
 #    edge_example_matrix:
 
