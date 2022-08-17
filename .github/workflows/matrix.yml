@@ -43,7 +43,7 @@ jobs:
       - name: Convert to JSON
         id: convert-json-cat
         run: |
-          echo "::set-output name=matrix-category::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
+          echo "::set-output name=matrix-category::$(python ./jsonify.py '${{ github.event.inputs.Category }}')"
           python ./jsonify.py '${{ github.event.inputs.Category }}'
 
       # - name: Check browser
@@ -67,7 +67,6 @@ jobs:
       matrix:
         Category: ${{ fromJSON(needs.setup.outputs.matrix-category) }}
     needs: [setup]
-    # if: needs.setup.outputs.runner1 == 'windows'
     if: contains(github.event.inputs.Browser, 'Category=Browser:Edge')
     runs-on: ubuntu-latest  #windows-self-hosted
 
@@ -76,7 +75,8 @@ jobs:
 
       - name: Show inputs
         run: |
-          echo "test filter is Browser=Edge | ${{ matrix.Category}}"
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+          echo "TEST FILTER IS Category=Browser:Edge | ${{ matrix.Category}}"
 
   job2:
     strategy:
@@ -94,4 +94,5 @@ jobs:
 
       - name: Show inputs
         run: |
-          echo "test filter: ${{ matrix.TestFilter }} | ${{ matrix.Category }}"
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+          echo "TEST FILTER IS ${{ matrix.TestFilter }} | ${{ matrix.Category }}"
