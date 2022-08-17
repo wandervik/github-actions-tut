@@ -11,32 +11,11 @@ on:
         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
         required: false
         default: 'Category=Ready'
-      Browser:
-        required: false
-env: 
+
+env:
   Browser-condition: TEST
 
 jobs:
-   example_matrix: 
-   if: Browser-condition = 'TEST'
-   runs-on: ubuntu-latest
-
-    strategy:
-      max-parallel: 3
-      matrix:
-        TestFilter: ["${{github.event.input.TestFilter}} | Category=Browser:Chrome", "${{github.event.input.TestFilter}} | Category=Firefox", "${{github.event.input.TestFilter}} | Category=Safari",  "Category=${{ github.event.inputs.TestFilter }} | Category=${{github.event.inputs.Browser}}"]
-    steps:
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{ matrix.version }}
-      - uses: actions/checkout@v2
-
-#       - run: node --version
-      - name: Show inputs
-        run: |
-          echo "url: ${{ github.event.inputs.URL }}"
-          echo "test filter: ${{ matrix.TestFilter }}"
-
    edge_example_matrix:
 
     runs-on: ubuntu-latest
