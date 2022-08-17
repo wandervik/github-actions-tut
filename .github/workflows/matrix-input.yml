@@ -1,0 +1,37 @@
+name: Inputs
+
+on:
+  workflow_dispatch:
+    inputs:
+      URL:
+        description: 'url'
+        required: true
+        default: 'https://example.com'
+      Category1:
+        description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
+        required: false
+        default: 'Category=Ready'
+      Category2:
+        description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
+        required: false
+        default: 'Category=LMS9'
+      Browser1:
+        description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
+        required: false
+        default: 'Category=Browser:Safary'
+      Browser2:
+        description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
+        required: false
+        default: 'Category=Browser:Chrome'
+jobs:
+  job1:
+    strategy:
+      matrix:
+        Category: ["${{ github.event.inputs.Category1 }}", "${{ github.event.inputs.Category2 }}"]
+        Browser: ["${{ github.event.inputs.Browser1 }}", "${{ github.event.inputs.Browser2 }}"]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show inputs
+        run: |
+          echo "Test input is ${{ github.event.inputs.Category }} | ${{ github.event.inputs.Browser }}"
