@@ -10,11 +10,11 @@ on:
       Category:
         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
         required: false
-        default: 'Category=Ready, Category=LMS9'
+        default: 'Category=Ready | Category=LMS9'
       Browser:
         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
         required: false
-        default: 'Category=Browser:Chrome, Category=Browser:Safary, Category=Browser:Edge'
+        default: 'Category=Browser:Chrome | Category=Browser:Safary | Category=Browser:Edge'
 
 jobs:
   setup:
@@ -27,7 +27,6 @@ jobs:
     steps:
       - name: Convert to JSON
         id: convert-json
-        working-directory: ".github"
         run: |
           echo "::set-output name=matrix::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
           python ./jsonify.py '${{ github.event.inputs.Browser }}'
