@@ -14,7 +14,7 @@ on:
       Browser:
         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
         required: false
-        # default: 'Category=Browser:Chrome | Category=Browser:Safary | Category=Browser:Edge'
+        default: 'Category=Browser:Chrome | Category=Browser:Safary | Category=Browser:Edge'
 env:
   Category=Browser:Edge : windows
   Category=Browser:Chrome : ubuntu-latest
