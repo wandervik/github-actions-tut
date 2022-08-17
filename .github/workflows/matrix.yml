@@ -36,6 +36,7 @@ jobs:
             TESTFILTER="${TESTFILTER/Browser=Edge, /}"
             TESTFILTER="${TESTFILTER/, Browser=Edge/}"
             TESTFILTER="\"[\"${TESTFILTER//, /\", \"}\"]\""
+            echo $TESTFILTER
             echo "::set-output name=TestFilter2::$TESTFILTER"
             echo "Edge contains"
           else
