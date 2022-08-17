@@ -7,10 +7,14 @@ on:
         description: 'url'
         required: true
         default: 'https://example.com'
-      TestFilter:
+      Category:
         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
         required: false
-        default: 'Browser=Chrome, Browser=Safary, Browser=Edge'
+        default: 'Category=Ready, Category=LMS9'
+      Browser:
+        description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
+        required: false
+        default: 'Category=Browser:Chrome, Category=Browser:Safary, Category=Browser:Edge'
 
 jobs:
   setup:
@@ -21,6 +25,7 @@ jobs:
       TestFilter1: ${{ steps.step1.outputs.TestFilter1 }}
       TestFilter2: ${{ steps.step1.outputs.TestFilter2 }}
     steps:
+
       - name: Check browser
         id: step1
         run: |
@@ -65,19 +70,19 @@ jobs:
   job2:
     strategy:
       matrix:
-        TestFilter: ${{ fromJSON(needs.setup.outputs.TestFilter2) }}
+        TestFilter: ${{ github.event.inputs.Browser }}
 
     needs: [setup]
-    if: (needs.setup.outputs.runner2 == 'ubuntu') && (matrix.TestFilter != 'Browser=Edge')
+    # if: (needs.setup.outputs.runner2 == 'ubuntu') && (matrix.TestFilter != 'Browser=Edge')
     # runs-on: ${{ needs.setup.outputs.runner }}
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "My runner is ${{ needs.setup.outputs.runner }}"
+      # - run: echo "My runner is ${{ needs.setup.outputs.runner }}"
 
       - name: Show inputs
         run: |
-          echo "test filter: ${{ needs.setup.outputs.TestFilter2 }}"
+          echo "test filter: ${{ github.event.inputs.Browser }}"
 # jobs:
 #    edge_example_matrix:
 
