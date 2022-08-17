@@ -24,6 +24,7 @@ jobs:
           if [ "${{ github.event.inputs.TestFilter }}" == "Browser=Edge" ]; then
             echo "::set-output name=runner1::windows"
             echo "::set-output name=TestFilter1::Browser=Edge"
+            echo "Edge Only"
           elif [ "${{ github.event.inputs.TestFilter }}" == *"Edge"* ]; then
             echo "::set-output name=runner2::ubuntu"
             echo "::set-output name=runner1::windows"
@@ -32,10 +33,14 @@ jobs:
             TESTFILTER=${TESTFILTER/Browser=Edge, /}
             TESTFILTER=${TESTFILTER/, Browser=Edge/}
             echo "::set-output name=TestFilter2::$TESTFILTER"
+            echo "Edge contains"
           else
             echo "::set-output name=runner2::ubuntu"
             echo "::set-output name=TestFilter2::${{ github.event.inputs.TestFilter }}"
+            echo "NO EDGE"
           fi
+
+
 
   job1:
     needs: [setup]
