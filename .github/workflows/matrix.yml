@@ -29,19 +29,21 @@ jobs:
       runner2: ${{ steps.step1.outputs.runner2 }}
       TestFilter1: ${{ steps.step1.outputs.TestFilter1 }}
       TestFilter2: ${{ steps.step1.outputs.TestFilter2 }}
-      matrix-browser: ${{ steps.convert-json.outputs.matrix }}
+      matrix-browser: ${{ steps.convert-json.outputs.matrix-browser }}
+      matrix-category: ${{ steps.convert-json-cat.outputs.matrix-category }}
+
     steps:
       - uses: actions/checkout@v2
       - name: Convert Browser to JSON
         id: convert-json
         run: |
-          echo "::set-output name=matrix::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
+          echo "::set-output name=matrix-browser::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
           python ./jsonify.py '${{ github.event.inputs.Browser }}'
 
       - name: Convert to JSON
         id: convert-json-cat
         run: |
-          echo "::set-output name=matrix::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
+          echo "::set-output name=matrix-category::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
           python ./jsonify.py '${{ github.event.inputs.Category }}'
 
       # - name: Check browser
@@ -88,7 +90,7 @@ jobs:
   job2:
     strategy:
       matrix:
-        TestFilter: ${{ fromJSON(needs.setup.outputs.matrix) }}
+        TestFilter: ${{ fromJSON(needs.setup.outputs.matrix-browser) }}
         exclude:
           - TestFilter: "Category=Browser:Edge"
 
