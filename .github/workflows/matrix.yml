@@ -13,10 +13,13 @@ on:
         default: 'Category=Ready'
       Browser:
         required: false
+env: 
+  Browser-condition: TEST
 
 jobs:
-   example_matrix:
-    runs-on: ubuntu-latest
+   example_matrix: 
+   if: Browser-condition = 'TEST'
+   runs-on: ubuntu-latest
 
     strategy:
       max-parallel: 3
