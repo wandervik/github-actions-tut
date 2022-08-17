@@ -28,6 +28,7 @@ jobs:
       - name: Convert to JSON
         id: convert-json
         run: |
+          ls
           echo "::set-output name=matrix::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
           python ./jsonify.py '${{ github.event.inputs.Browser }}'
 
