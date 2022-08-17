@@ -32,9 +32,35 @@ jobs:
 
   job1:
     needs: [setup]
+    if: needs.setup.outputs.runner == 'TEST'
     runs-on: ${{ needs.setup.outputs.runner }}
+
+    env:
+      TestFilter: 'Category=Edge'
     steps:
-      - run: echo "My runner is ${{ needs.setup.outputs.runner }}" #ubuntu-latest
+      - run: echo "My runner is ${{ needs.setup.outputs.runner }}"
+
+      - name: Show inputs
+        run: |
+          echo "url: ${{ github.event.inputs.URL }}"
+          echo "test filter: ${{ env.TestFilter }}"
+
+  job2:
+    strategy:
+      matrix:
+        TestFilter: [Category=Edge, Category=Chrome]
+
+    needs: [setup]
+    if: needs.setup.outputs.runner != 'TEST'
+    runs-on: ${{ needs.setup.outputs.runner }}
+
+    steps:
+      - run: echo "My runner is ${{ needs.setup.outputs.runner }}"
+
+      - name: Show inputs
+        run: |
+          echo "url: ${{ github.event.inputs.URL }}"
+          echo "test filter: ${{ env.TestFilter }}"
 
 # jobs:
 #    edge_example_matrix:
