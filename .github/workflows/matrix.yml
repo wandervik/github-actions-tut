@@ -35,7 +35,7 @@ jobs:
             TESTFILTER=${{ github.event.inputs.TestFilter }}
             TESTFILTER=${TESTFILTER/Browser=Edge, /}
             TESTFILTER=${TESTFILTER/, Browser=Edge/}
-            echo "::set-output name=TestFilter2::$TESTFILTER"
+            echo "::set-output name=TestFilter2::[$TESTFILTER]"
             echo "Edge contains"
           else
             echo "::set-output name=runner2::ubuntu"
@@ -61,7 +61,8 @@ jobs:
   job2:
     strategy:
       matrix:
-        TestFilter: [ "${{ needs.setup.outputs.TestFilter2 }}" ]
+        TestFilter:
+          ${{ needs.setup.outputs.TestFilter2 }}
 
     needs: [setup]
     if: needs.setup.outputs.runner2 == 'ubuntu'
