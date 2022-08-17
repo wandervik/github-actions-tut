@@ -28,7 +28,7 @@ jobs:
             echo "::set-output name=runner1::windows"
             echo "::set-output name=TestFilter1::Browser=Edge"
             echo "Edge Only"
-          elif [[ "${{ github.event.inputs.TestFilter }}" == *Edge* ]]; then
+          elif [[ "${{ github.event.inputs.TestFilter }}" != *Edge* ]]; then
             echo "::set-output name=runner2::ubuntu"
             echo "::set-output name=runner1::windows"
             echo "::set-output name=TestFilter1::Browser=Edge"
@@ -68,7 +68,7 @@ jobs:
         TestFilter: ${{ fromJSON(needs.setup.outputs.TestFilter2) }}
 
     needs: [setup]
-    if: needs.setup.outputs.runner2 == 'ubuntu'
+    if: (needs.setup.outputs.runner2 == 'ubuntu') && (matrix.TestFilter != 'Browser=Edge')
     # runs-on: ${{ needs.setup.outputs.runner }}
     runs-on: ubuntu-latest
 
