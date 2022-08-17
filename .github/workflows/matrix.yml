@@ -68,9 +68,8 @@ jobs:
         Category: ${{ fromJSON(needs.setup.outputs.matrix-category) }}
     needs: [setup]
     # if: needs.setup.outputs.runner1 == 'windows'
-    if: ${{ contains(github.event.inputs.Browser, "Category=Browser:Edge") }}
-    # runs-on: ${{ needs.setup.outputs.runner }}
-    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.Browser, 'Category=Browser:Edge')
+    runs-on: ubuntu-latest  #windows-self-hosted
 
     steps:
       - run: echo "My runner is windows"
@@ -89,31 +88,10 @@ jobs:
 
     needs: [setup]
     if: ${{ github.event.inputs.Browser != "Category=Browser:Edge" }}
-    # runs-on: ${{ needs.setup.outputs.runner }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #ubuntu-self-hostef
 
     steps:
-      # - run: echo "My runner is ${{ needs.setup.outputs.runner }}"
 
       - name: Show inputs
         run: |
           echo "test filter: ${{ matrix.TestFilter }} | ${{ matrix.Category }}"
-# jobs:
-#    edge_example_matrix:
-
-#     runs-on: ubuntu-latest
-#     if: TestFilter='Category=Ready'
-
-#     env:
-#         TestFilter: Category=Edge
-#     steps:
-#       # - uses: actions/setup-node@v3
-#       #   with:
-#       #     node-version: ${{ matrix.version }}
-#       - uses: actions/checkout@v2
-
-# #       - run: node --version
-#       - name: Show inputs
-#         run: |
-#           echo "url: ${{ github.event.inputs.URL }}"
-#           echo "test filter: ${{ env.TestFilter }}"
