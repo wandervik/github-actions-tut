@@ -24,6 +24,7 @@ jobs:
       runner2: ${{ steps.step1.outputs.runner2 }}
       TestFilter1: ${{ steps.step1.outputs.TestFilter1 }}
       TestFilter2: ${{ steps.step1.outputs.TestFilter2 }}
+      matrix: ${{ steps.convert-json.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
       - name: Convert to JSON
