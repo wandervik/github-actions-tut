@@ -87,7 +87,7 @@ jobs:
           - TestFilter: "Category=Browser:Edge"
 
     needs: [setup]
-    if: ${{ github.event.inputs.Browser != "Category=Browser:Edge" }}
+    if: github.event.inputs.Browser != 'Category=Browser:Edge'
     runs-on: ubuntu-latest #ubuntu-self-hostef
 
     steps:
