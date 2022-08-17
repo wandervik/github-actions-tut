@@ -25,32 +25,38 @@ jobs:
       TestFilter1: ${{ steps.step1.outputs.TestFilter1 }}
       TestFilter2: ${{ steps.step1.outputs.TestFilter2 }}
     steps:
-
-      - name: Check browser
-        id: step1
+      - name: Convert to JSON
+        id: convert-json
+        working-directory: ".github"
         run: |
-          if [[ "${{ github.event.inputs.TestFilter }}" == "Browser=Edge" ]]; then
-            echo "::set-output name=runner1::windows"
-            echo "::set-output name=TestFilter1::Browser=Edge"
-            echo "Edge Only"
-          elif [[ "${{ github.event.inputs.TestFilter }}" != *Edge* ]]; then
-            echo "::set-output name=runner2::ubuntu"
-            echo "::set-output name=runner1::windows"
-            echo "::set-output name=TestFilter1::Browser=Edge"
-            TESTFILTER="${{ github.event.inputs.TestFilter }}"
-            TESTFILTER="${TESTFILTER/Browser=Edge, /}"
-            TESTFILTER="${TESTFILTER/, Browser=Edge/}"
-            TESTFILTER="[\"${TESTFILTER//, /\", \"}\"]"
-            echo $TESTFILTER
-            echo "::set-output name=TestFilter2::$TESTFILTER"
-            echo "Edge contains"
-          else
-            echo "::set-output name=runner2::ubuntu"
-            TESTFILTER="${{ github.event.inputs.TestFilter }}"
-            TESTFILTER="[\"${TESTFILTER//, /\", \"}\"]"
-            echo "::set-output name=TestFilter2::$TESTFILTER"
-            echo "NO EDGE"
-          fi
+          echo "::set-output name=matrix::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
+          python ./jsonify.py '${{ github.event.inputs.Browser }}'
+
+      # - name: Check browser
+      #   id: step1
+      #   run: |
+      #     if [[ "${{ github.event.inputs.TestFilter }}" == "Browser=Edge" ]]; then
+      #       echo "::set-output name=runner1::windows"
+      #       echo "::set-output name=TestFilter1::Browser=Edge"
+      #       echo "Edge Only"
+      #     elif [[ "${{ github.event.inputs.TestFilter }}" != *Edge* ]]; then
+      #       echo "::set-output name=runner2::ubuntu"
+      #       echo "::set-output name=runner1::windows"
+      #       echo "::set-output name=TestFilter1::Browser=Edge"
+      #       TESTFILTER="${{ github.event.inputs.TestFilter }}"
+      #       TESTFILTER="${TESTFILTER/Browser=Edge, /}"
+      #       TESTFILTER="${TESTFILTER/, Browser=Edge/}"
+      #       TESTFILTER="[\"${TESTFILTER//, /\", \"}\"]"
+      #       echo $TESTFILTER
+      #       echo "::set-output name=TestFilter2::$TESTFILTER"
+      #       echo "Edge contains"
+      #     else
+      #       echo "::set-output name=runner2::ubuntu"
+      #       TESTFILTER="${{ github.event.inputs.TestFilter }}"
+      #       TESTFILTER="[\"${TESTFILTER//, /\", \"}\"]"
+      #       echo "::set-output name=TestFilter2::$TESTFILTER"
+      #       echo "NO EDGE"
+      #     fi
 
 
 
@@ -65,12 +71,12 @@ jobs:
 
       - name: Show inputs
         run: |
-          echo "test filter: ${{ needs.setup.outputs.TestFilter1 }}"
+          echo "test filter is ${{ needs.setup.outputs.TestFilter1 }}"
 
   job2:
     strategy:
       matrix:
-        TestFilter: ${{ github.event.inputs.Browser }}
+        TestFilter: ${{ fromJSON(needs.setup.outputs.matrix) }}
 
     needs: [setup]
     # if: (needs.setup.outputs.runner2 == 'ubuntu') && (matrix.TestFilter != 'Browser=Edge')
