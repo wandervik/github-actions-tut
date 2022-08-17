@@ -21,9 +21,9 @@ jobs:
       matrix:
         TestFilter: [Category=Chrome, Category=Firefox, Category=Safari,  "${{ github.event.inputs.TestFilter }}"]
     steps:
-#       - uses: actions/setup-node@v3
-#         with:
-#           node-version: ${{ matrix.version }}
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.version }}
       - uses: actions/checkout@v2
 
 #       - run: node --version
@@ -31,3 +31,22 @@ jobs:
         run: |
           echo "url: ${{ github.event.inputs.URL }}"
           echo "test filter: ${{ matrix.TestFilter }}"
+
+   edge_example_matrix:
+
+    runs-on: ubuntu-latest
+    if: TestFilter='Category=Ready'
+
+    env:
+        TestFilter: Category=Edge
+    steps:
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.version }}
+      - uses: actions/checkout@v2
+
+#       - run: node --version
+      - name: Show inputs
+        run: |
+          echo "url: ${{ github.event.inputs.URL }}"
+          echo "test filter: ${{ env.TestFilter }}"
