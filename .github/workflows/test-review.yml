@@ -1,7 +1,8 @@
 name: Test review
 
 on:
-  pull-request
+  pull_request:
+
   
 jobs:
   test:
