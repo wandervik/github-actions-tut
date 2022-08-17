@@ -10,7 +10,7 @@ on:
       TestFilter:
         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
         required: false
-        default: 'Category=Ready'
+        default: 'Browser=Chrome, Browser=Safary, Browser=Edge'
 
 jobs:
   setup:
@@ -18,18 +18,27 @@ jobs:
     outputs:
       runner: ${{ steps.step1.outputs.runner }}
     steps:
-      - name: Check branch
+      - name: Check browser
         id: step1
         run: |
-          if [ ${{ github.event.inputs.TestFilter }} == 'TEST' ]; then
-            echo "::set-output name=runner::TEST"
+          if [ ${{ github.event.inputs.TestFilter }} == "Browser=Edge" ]; then
+            echo "::set-output name=runner1::windows"
+            echo "::set-output name=TestFilter1::Browser=Edge"
+          elif [ ${{ github.event.inputs.TestFilter }} == *"Edge"* ]; then
+            echo "::set-output name=runner2::ubuntu"
+            echo "::set-output name=runner1::windows"
+            echo "::set-output name=TestFilter1::Browser=Edge"
+            TESTFILTER=${{ github.event.inputs.TestFilter }}
+            TESTFILTER=${TESTFILTER/Browser=Edge, /}
+            TESTFILTER=${TESTFILTER/, Browser=Edge/}
+            echo "::set-output name=TestFilter2::$TESTFILTER"
           else
-            echo "::set-output name=runner::macos-latest"
-          fi
+            echo "::set-output name=runner2::ubuntu"
+            echo "::set-output name=TestFilter2::${{ github.event.inputs.TestFilter }}"
 
   job1:
     needs: [setup]
-    if: needs.setup.outputs.runner == 'TEST'
+    if: needs.setup.outputs.runner1 == 'windows'
     # runs-on: ${{ needs.setup.outputs.runner }}
     runs-on: ubuntu-latest
 
@@ -40,16 +49,15 @@ jobs:
 
       - name: Show inputs
         run: |
-          echo "url: ${{ github.event.inputs.URL }}"
-          echo "test filter: ${{ env.TestFilter }}"
+          echo "test filter: ${{ needs.setup.outputs.TestFilter1 }}"
 
   job2:
     strategy:
       matrix:
-        TestFilter: [Category=Edge, Category=Chrome]
+        TestFilter: ${{ needs.setup.outputs.TestFilter2 }}
 
     needs: [setup]
-    if: needs.setup.outputs.runner != 'TEST'
+    if: needs.setup.outputs.runner2 == 'ubuntu'
     # runs-on: ${{ needs.setup.outputs.runner }}
     runs-on: ubuntu-latest
 
@@ -58,9 +66,7 @@ jobs:
 
       - name: Show inputs
         run: |
-          echo "url: ${{ github.event.inputs.URL }}"
-          echo "test filter: ${{ env.TestFilter }}"
-
+          echo "test filter: ${{ needs.setup.outputs.TestFilter2 }}"
 # jobs:
 #    edge_example_matrix:
 
