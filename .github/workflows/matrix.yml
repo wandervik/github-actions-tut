@@ -33,9 +33,9 @@ jobs:
             echo "::set-output name=runner1::windows"
             echo "::set-output name=TestFilter1::Browser=Edge"
             TESTFILTER="${{ github.event.inputs.TestFilter }}"
-            TESTFILTER=${TESTFILTER/Browser=Edge, /}
-            TESTFILTER=${TESTFILTER/, Browser=Edge/}
-            echo "::set-output name=TestFilter2::$TESTFILTER"
+            TESTFILTER="${TESTFILTER/Browser=Edge, /}"
+            TESTFILTER="${TESTFILTER/, Browser=Edge/}"
+            echo "::set-output name=TestFilter2::[$TESTFILTER"]
             echo "Edge contains"
           else
             echo "::set-output name=runner2::ubuntu"
