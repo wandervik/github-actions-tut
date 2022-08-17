@@ -15,6 +15,11 @@ on:
         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
         required: false
         default: 'Category=Browser:Chrome | Category=Browser:Safary | Category=Browser:Edge'
+env:
+  Category=Browser:Edge : windows
+  Category=Browser:Chrome : ubuntu-latest
+  Category=Browser:Safari : ubuntu-latest
+  Category=Browser:Firefox : ubuntu-latest
 
 jobs:
   setup:
@@ -24,9 +29,15 @@ jobs:
       runner2: ${{ steps.step1.outputs.runner2 }}
       TestFilter1: ${{ steps.step1.outputs.TestFilter1 }}
       TestFilter2: ${{ steps.step1.outputs.TestFilter2 }}
-      matrix: ${{ steps.convert-json.outputs.matrix }}
+      matrix-browser: ${{ steps.convert-json.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
+      - name: Convert Browser to JSON
+        id: convert-json
+        run: |
+          echo "::set-output name=matrix::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
+          python ./jsonify.py '${{ github.event.inputs.Browser }}'
+
       - name: Convert to JSON
         id: convert-json
         run: |
@@ -82,14 +93,14 @@ jobs:
     needs: [setup]
     # if: (needs.setup.outputs.runner2 == 'ubuntu') && (matrix.TestFilter != 'Browser=Edge')
     # runs-on: ${{ needs.setup.outputs.runner }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.${{ matrix.TestFilter }} }}
 
     steps:
       # - run: echo "My runner is ${{ needs.setup.outputs.runner }}"
 
       - name: Show inputs
         run: |
-          echo "test filter: ${{ github.event.inputs.Browser }}"
+          echo "test filter: ${{ matrix.TestFilter }}"
 # jobs:
 #    edge_example_matrix:
 
