@@ -21,10 +21,10 @@ jobs:
       - name: Check browser
         id: step1
         run: |
-          if [ ${{ github.event.inputs.TestFilter }} == "Browser=Edge" ]; then
+          if [ "${{ github.event.inputs.TestFilter }}" == "Browser=Edge" ]; then
             echo "::set-output name=runner1::windows"
             echo "::set-output name=TestFilter1::Browser=Edge"
-          elif [ ${{ github.event.inputs.TestFilter }} == *"Edge"* ]; then
+          elif [ "${{ github.event.inputs.TestFilter }}" == *"Edge"* ]; then
             echo "::set-output name=runner2::ubuntu"
             echo "::set-output name=runner1::windows"
             echo "::set-output name=TestFilter1::Browser=Edge"
