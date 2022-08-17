@@ -34,4 +34,4 @@ jobs:
     steps:
       - name: Show inputs
         run: |
-          echo "Test input is ${{ github.event.inputs.Category }} | ${{ github.event.inputs.Browser }}"
+          echo "Test input is ${{ matrix.Category }} | ${{ matrix.Browser }}"
