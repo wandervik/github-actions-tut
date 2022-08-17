@@ -39,10 +39,10 @@ jobs:
           python ./jsonify.py '${{ github.event.inputs.Browser }}'
 
       - name: Convert to JSON
-        id: convert-json
+        id: convert-json-cat
         run: |
           echo "::set-output name=matrix::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
-          python ./jsonify.py '${{ github.event.inputs.Browser }}'
+          python ./jsonify.py '${{ github.event.inputs.Category }}'
 
       # - name: Check browser
       #   id: step1
