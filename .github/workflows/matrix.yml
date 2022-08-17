@@ -25,10 +25,10 @@ jobs:
       TestFilter1: ${{ steps.step1.outputs.TestFilter1 }}
       TestFilter2: ${{ steps.step1.outputs.TestFilter2 }}
     steps:
+      - uses: actions/checkout@v2
       - name: Convert to JSON
         id: convert-json
         run: |
-          ls
           echo "::set-output name=matrix::$(python ./jsonify.py '${{ github.event.inputs.Browser }}')"
           python ./jsonify.py '${{ github.event.inputs.Browser }}'
 
