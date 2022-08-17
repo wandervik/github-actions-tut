@@ -35,6 +35,7 @@ jobs:
             TESTFILTER="${{ github.event.inputs.TestFilter }}"
             TESTFILTER="${TESTFILTER/Browser=Edge, /}"
             TESTFILTER="${TESTFILTER/, Browser=Edge/}"
+            TESTFILTER="\"[\"${TESTFILTER//, /\", \"}\"]\""
             echo "::set-output name=TestFilter2::$TESTFILTER"
             echo "Edge contains"
           else
