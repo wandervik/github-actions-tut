@@ -1,0 +1,18 @@
+name: Test review
+
+on:
+  pull-request
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: echo 'job is failes'
+        
+      - name: request approve
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr edit ${{ github.event.pull_request.html_url }} --add-reviewer wandervik
+      
