@@ -35,6 +35,7 @@ jobs:
           else
             echo "::set-output name=runner2::ubuntu"
             echo "::set-output name=TestFilter2::${{ github.event.inputs.TestFilter }}"
+          fi
 
   job1:
     needs: [setup]
