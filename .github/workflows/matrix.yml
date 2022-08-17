@@ -41,7 +41,9 @@ jobs:
             echo "Edge contains"
           else
             echo "::set-output name=runner2::ubuntu"
-            echo "::set-output name=TestFilter2::${{ github.event.inputs.TestFilter }}"
+            TESTFILTER="${{ github.event.inputs.TestFilter }}"
+            TESTFILTER="[\"${TESTFILTER//, /\", \"}\"]"
+            echo "::set-output name=TestFilter2::$TESTFILTER"
             echo "NO EDGE"
           fi
 
