@@ -16,21 +16,42 @@ env:
   Browser-condition: TEST
 
 jobs:
-   edge_example_matrix:
-
+  setup:
     runs-on: ubuntu-latest
-    if: TestFilter='Category=Ready'
-
-    env:
-        TestFilter: Category=Edge
+    outputs:
+      runner: ${{ steps.step1.outputs.runner }}
     steps:
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{ matrix.version }}
-      - uses: actions/checkout@v2
-
-#       - run: node --version
-      - name: Show inputs
+      - name: Check branch
+        id: step1
         run: |
-          echo "url: ${{ github.event.inputs.URL }}"
-          echo "test filter: ${{ env.TestFilter }}"
+          if [ ${{ env.Browser-condition }} == 'TEST' ]; then
+            echo "::set-output name=runner::TEST"
+          else
+            echo "::set-output name=runner::macos-latest"
+          fi
+
+  job1:
+    needs: [setup]
+    runs-on: ${{ needs.setup.outputs.runner }}
+    steps:
+      - run: echo "My runner is ${{ needs.setup.outputs.runner }}" #ubuntu-latest
+
+# jobs:
+#    edge_example_matrix:
+
+#     runs-on: ubuntu-latest
+#     if: TestFilter='Category=Ready'
+
+#     env:
+#         TestFilter: Category=Edge
+#     steps:
+#       # - uses: actions/setup-node@v3
+#       #   with:
+#       #     node-version: ${{ matrix.version }}
+#       - uses: actions/checkout@v2
+
+# #       - run: node --version
+#       - name: Show inputs
+#         run: |
+#           echo "url: ${{ github.event.inputs.URL }}"
+#           echo "test filter: ${{ env.TestFilter }}"
