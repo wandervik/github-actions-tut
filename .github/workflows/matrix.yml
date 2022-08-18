@@ -15,8 +15,6 @@ on:
         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
         required: false
         default: 'Category=Browser:Chrome | Category=Browser:Safary | Category=Browser:Edge'
-env:
-  TestBrowser: Category=Browser:Chrome
 
 jobs:
   setup:
@@ -47,7 +45,7 @@ jobs:
       matrix:
         Category: ${{ fromJSON(needs.setup.outputs.matrix-category) }}
     needs: [setup]
-    if: contains(env.TestBrowser, 'Category')
+    if: contains(github.event.inputs.Browser, 'Category=Browser:Edge')
     runs-on: ubuntu-latest  #windows-self-hosted
 
     steps:
