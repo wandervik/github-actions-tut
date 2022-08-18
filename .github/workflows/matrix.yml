@@ -15,20 +15,14 @@ on:
         description: 'Test description. Filter by tags: Category=<specflowTag1> | Category=<specflowRag2>.'
         required: false
         default: 'Category=Browser:Chrome | Category=Browser:Safary | Category=Browser:Edge'
-env:
-  Category=Browser:Edge : windows
-  Category=Browser:Chrome : ubuntu-latest
-  Category=Browser:Safari : ubuntu-latest
-  Category=Browser:Firefox : ubuntu-latest
 
 jobs:
   setup:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .github
     outputs:
-      runner1: ${{ steps.step1.outputs.runner1 }}
-      runner2: ${{ steps.step1.outputs.runner2 }}
-      TestFilter1: ${{ steps.step1.outputs.TestFilter1 }}
-      TestFilter2: ${{ steps.step1.outputs.TestFilter2 }}
       matrix-browser: ${{ steps.convert-json.outputs.matrix-browser }}
       matrix-category: ${{ steps.convert-json-cat.outputs.matrix-category }}
 
@@ -45,22 +39,6 @@ jobs:
         run: |
           echo "::set-output name=matrix-category::$(python ./jsonify.py '${{ github.event.inputs.Category }}')"
           python ./jsonify.py '${{ github.event.inputs.Category }}'
-
-      # - name: Check browser
-      #   id: step1
-      #   run: |
-      #     if [[ "${{ github.event.inputs.TestFilter }}" == "Browser=Edge" ]]; then
-      #       echo "::set-output name=runner1::windows"
-      #       echo "Edge Only"
-      #     elif [[ "${{ github.event.inputs.TestFilter }}" != *Edge* ]]; then
-      #       echo "::set-output name=runner2::ubuntu"
-      #       echo "Edge contains"
-      #     else
-      #       echo "::set-output name=runner2::ubuntu"
-      #       echo "NO EDGE"
-      #     fi
-
-
 
   job1:
     strategy:
