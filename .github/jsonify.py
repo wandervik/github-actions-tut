@@ -1,8 +1,6 @@
 import json
 import sys
 
-print(sys.argv)
-
 def toJson(data: str, delim=' | '):
   return json.dumps(data.split(delim))
 
@@ -14,3 +12,5 @@ else:
   sys.exit(1)
 
 sys.exit(0)
+
+
