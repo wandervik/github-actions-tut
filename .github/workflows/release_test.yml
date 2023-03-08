@@ -15,7 +15,7 @@ jobs:
         run: echo ${{github.ref_name}}
         
       - name: Test 2
-        if: github.ref_name == 'v*'
+        if: startsWith(github.ref_name, 'v')
         run: echo "Condition success"
         
         
