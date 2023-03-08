@@ -13,3 +13,9 @@ jobs:
 
       - name: Test 1
         run: echo ${{github.ref_name}}
+        
+      - name: Test 2
+        if: github.ref_type == 'tag'
+        run: echo "Condition success"
+        
+        
