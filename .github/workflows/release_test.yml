@@ -11,10 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Test 1
+      - name: Master
+        if: github.ref_name == 'main'
         run: echo ${{github.ref_name}}
         
-      - name: Test 2
+      - name: Release
         if: startsWith(github.ref_name, 'v')
         run: echo "Condition success"
         
