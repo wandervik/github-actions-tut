@@ -22,7 +22,7 @@ jobs:
       - name: Build application
         run: gcc main.c -o hello-world
 
-      - uses: actions/upload-artifact@v3.0.0
+      - uses: actions/upload-artifact@v4.3.5
         with:
           path: hello-world
 
