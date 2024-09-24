@@ -1,0 +1,35 @@
+name: QA Client Tests
+on:
+  schedule:
+    - cron: '0 16 * * *' # every day, 4pm UTC ( 12pm ET )
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Env
+        required: false
+        type: choice
+        options:
+          - PROD
+          - DEV
+      site:
+        description: Site URL
+        required: false
+        type: string
+      pageos:
+        description: PageOS Version
+        required: false
+        type: string
+      tyche:
+        description: Tyche Version
+        required: false
+        type: string
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "testing........."
