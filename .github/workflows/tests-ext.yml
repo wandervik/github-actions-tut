@@ -1,5 +1,7 @@
 name: QA Client Tests
 on:
+  repository_dispatch:
+    types: [trigger-workflow]
   schedule:
     - cron: '0 16 * * *' # every day, 4pm UTC ( 12pm ET )
   workflow_dispatch:
