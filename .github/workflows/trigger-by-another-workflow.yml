@@ -1,0 +1,19 @@
+name: Secondary Workflow
+
+on:
+  workflow_run:
+    workflows: ["QA Client Tests"]
+    types:
+      - completed  # Trigger only after the first workflow has completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # Ensure the first workflow was successful
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      # Add your deployment steps here
+      - name: Deploy project
+        run: echo "Deploying project"
